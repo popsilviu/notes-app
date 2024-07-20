@@ -1,0 +1,90 @@
+:root {
+  --accentActive: hsl(45, 97%, 88%);
+  --accentHover: hsl(200, 12%, 95%);
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+body {
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html,
+body {
+  font-family: "Poppins", Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+}
+
+.navigation__bar {
+  font-size: large;
+  width: 280px;
+}
+
+.list__of__pages {
+  padding: 0;
+}
+
+.list__of__pages__element {
+  border-radius: 0 20px 20px 0;
+  padding-left: 12px;
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+}
+
+.list__of__pages__element:hover {
+  background-color: var(--accentHover);
+}
+
+.active:hover {
+  background-color: var(--accentActive);
+}
+
+.list__of__pages__element__link {
+  margin-left: 30px;
+}
+
+.list__of__pages__element > i {
+  padding: 0 12px;
+}
+
+.active {
+  background-color: var(--accentActive);
+}
