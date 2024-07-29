@@ -1,73 +1,37 @@
-// @ts-check
-
-/**
- * @typedef {Object} BaseNote
- * @property {string} id - The unique identifier for the note.
- * @property {string} title - The title of the note.
- */
-
-/**
- * @typedef {Object} _NoteWithDescription
- * @property {string} description - The description of the note.
- * @property {"details"} type
- * @typedef {BaseNote & _NoteWithDescription} NoteWithDescription
- */
-
-/**
- * @typedef {Object} _NoteWithTasks
- * @property {string[]} tasks - A list of tasks.
- * @property {"tasks"} type
- * @typedef {BaseNote & _NoteWithTasks} NoteWithTasks
- */
-
-/**
- * @typedef {NoteWithDescription | NoteWithTasks} Note
- */
-
 class NotesDataAPI {
-  /**
-   * @type {Map<string, Note>}
-   */
-  notes = new Map();
+  #notes = [];
 
   /**
-   * Fetch the notes data from the API
-   * @param {string} [url]
+   * Retrieve notes data from the API.
    */
-  fetchData(url) {
-    if (url == undefined) return this.updateNotes(mockData);
+  async getNotes() {
+    // GET request to the API
+    //const res = await fetch(url);
+    //this.#notes = await res.json();
 
-    fetch(url)
-      .then((res) => res.json())
-      .then((notes) => this.updateNotes(notes))
-      .catch((e) => console.error(e));
+    this.#notes = [
+      {
+        id: "1",
+        title: "Note 1",
+        description: new Array(5).fill("a").join(""),
+        type: "details",
+      },
+      {
+        id: "2",
+        title: "Note 2",
+        tasks: ["task 1", "task 2", "task 3", "task 4"],
+        type: "tasks",
+      },
+    ];
+
+    this.#refreshPage();
   }
 
   /**
-   * Update the list of notes based on their id
-   * @param {readonly Note[]} notes
+   * Refresh the page.
+   * @private
    */
-  updateNotes(notes) {
-    notes.forEach((note) => this.updateNote(note, false));
-    this.updatePage();
-  }
-
-  /**
-   * @param {Note} note
-   * @param {boolean} updatePage
-   */
-  updateNote(note, updatePage = true) {
-    const noteData = this.notes.get(note.id) ?? {};
-
-    // merge contents of both objects
-    // might be a bad practice
-    // Silviu help
-    this.notes.set(note.id, { ...noteData, ...note });
-
-    if (updatePage) this.updatePage();
-  }
-
-  updatePage() {
+  #refreshPage() {
     const notesConentArea = document.querySelector("#notes-content-area");
 
     if (notesConentArea == null)
@@ -77,49 +41,34 @@ class NotesDataAPI {
 
     for (const note of this.notes.values())
       if (note.type == "details")
-        notesConentArea.appendChild(NoteWithDescriptionHTML(note));
-      else notesConentArea.appendChild(NoteWithTasksHTML(note));
+        notesConentArea.appendChild(
+          element("div", {}, [
+            element("h2", {}, [document.createTextNode(note.title)]),
+            element("p", {}, [document.createTextNode(note.description)]),
+          ]),
+        );
+      else
+        notesConentArea.appendChild(
+          element("div", {}, [
+            element("h2", {}, [document.createTextNode(note.title)]),
+            element(
+              "ul",
+              {},
+              note.tasks.map((task) =>
+                element("li", {}, [document.createTextNode(task)]),
+              ),
+            ),
+          ]),
+        );
   }
-}
-
-// TODO: rethink the functions below after we have the markup for a note
-
-/**
- * Generate the HTML code for a note with details
- * @param {NoteWithDescription} note
- * @returns {Node}
- */
-function NoteWithDescriptionHTML(note) {
-  return element("div", {}, [
-    element("h2", {}, [document.createTextNode(note.title)]),
-    element("p", {}, [document.createTextNode(note.description)]),
-  ]);
-}
-
-/**
- * Generate the HTML code for a note with tasks
- * @param {NoteWithTasks} note
- * @returns {Node}
- */
-function NoteWithTasksHTML(note) {
-  return element("div", {}, [
-    element("h2", {}, [document.createTextNode(note.title)]),
-    element(
-      "ul",
-      {},
-      note.tasks.map((task) =>
-        element("li", {}, [document.createTextNode(task)]),
-      ),
-    ),
-  ]);
 }
 
 /**
  * Creates an HTML element.
- * @param {string} tag - The tag name of the element.
- * @param {Object.<string, string>} attributes - The attributes of the element as key-value pairs.
- * @param {Node[]} children - The list of children strings to be added to the element.
- * @returns {Node} The created HTML element.
+ * @param tag - The tag name of the element.
+ * @param attributes - The attributes of the element as key-value pairs.
+ * @param children - The list of children strings to be added to the element.
+ * @returns The created HTML element.
  */
 function element(tag, attributes, children) {
   const el = document.createElement(tag);
@@ -133,65 +82,6 @@ function element(tag, attributes, children) {
   return el;
 }
 
-// TODO: remove everyting below this one we have data
-
-function generateRandomString(minLength, maxLength) {
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const length =
-    Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
-  let result = "";
-
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-
-  return result;
-}
-
-function generateRandomList(minTasks, maxTasks) {
-  const tasks =
-    Math.floor(Math.random() * (maxTasks - minTasks + 1)) + minTasks;
-
-  return new Array(tasks).fill(0).map(() => generateRandomString(5, 15));
-}
-
-const iota = (() => {
-  let n = 0;
-  return () => n++;
-})();
-
-/**
- * @type {readonly Note[]}
- */
-// @ts-expect-error type fuckery
-const mockData = Object.freeze([
-  ...new Array(3).fill(0).map(() => {
-    const n = iota();
-    return {
-      id: n + "",
-      title: "Note " + n,
-      description: generateRandomString(10, 20),
-      type: "details",
-    };
-  }),
-  ...new Array(3).fill(0).map(() => {
-    const n = iota();
-    return {
-      id: n + "",
-      title: "Note " + n,
-      tasks: generateRandomList(1, 5),
-      type: "tasks",
-    };
-  }),
-  {
-    id: iota() + "",
-    title: "Note with long description",
-    description: generateRandomString(300, 400),
-    type: "details",
-  },
-]);
-
 const api = new NotesDataAPI();
 
-document.addEventListener("DOMContentLoaded", () => api.fetchData());
+document.addEventListener("DOMContentLoaded", () => api.getNotes());
