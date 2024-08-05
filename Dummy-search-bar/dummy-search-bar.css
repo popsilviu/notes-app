@@ -1,4 +1,4 @@
-  .search-bar {
+  .form {
     height: 50px;
     width: 100%;
      
@@ -7,12 +7,12 @@
     display: flex;
   }
 
-  .search-bar--focused {
+  .form:focus-within {
     background-color: white;
     box-shadow: rgba(65, 69, 73, 0.3) 0px 1px 1px 0px, rgba(65, 69, 73, 0.15) 0px 1px 3px 1px;
   }
 
-  .search-bar__input {
+  .form__input {
     height: 100%;
 
     background-color: inherit;
@@ -27,7 +27,7 @@
     padding: 10px;
   }
 
-  .search-bar__button {
+  .form__button {
     border-radius: 50%;
     color: #61656b;
     font-size: 16px;
@@ -36,13 +36,13 @@
     padding: 10px;
   }
 
-  .search-bar__button:hover {
+  .form__button:hover {
     background-color: #e3e5e6;
     cursor: pointer;
   }
   
 @media (max-width: 576px) {
-    #top-search-bar {
+    .form {
         display: none;
     }
   }
