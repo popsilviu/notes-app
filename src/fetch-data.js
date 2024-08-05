@@ -1,14 +1,11 @@
 class NotesDataAPI {
   #notes = [];
 
-  /**
-   * Retrieve notes data from the API.
-   */
-  async getNotes() {
-    // GET request to the API
-    //const res = await fetch(url);
-    //this.#notes = await res.json();
+  // TODO: replace once we have the url
+  #baseURL = "http://localhost:3000";
 
+  // TODO: remove once we have data
+  getNotesDummy() {
     this.#notes = [
       {
         id: "1",
@@ -25,6 +22,83 @@ class NotesDataAPI {
     ];
 
     this.#refreshPage();
+  }
+
+  /**
+   * Retrieve notes data from the API.
+   */
+  async getNotes() {
+    const url = this.#baseURL;
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch ${url}: ${res.status} ${res.statusText}`,
+      );
+    }
+
+    this.#notes = await res.json();
+    this.#refreshPage();
+  }
+
+  /**
+   * Create a new note.
+   * @param note The note to create.
+   * @param refetch Whether to refetch the notes after creating the new note. Defaults to true. Useful for batch updates.
+   */
+  async createNote(note, refetch = true) {
+    const url = this.#baseURL;
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(note),
+    });
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch ${url}: ${res.status} ${res.statusText}`,
+      );
+    }
+
+    if (refetch === true) return this.getNotes();
+  }
+
+  /**
+   * Update an existing note's data.
+   * @param note The note to update.
+   * @param refetch Whether to refetch the notes after creating the new note. Defaults to true. Useful for batch updates.
+   */
+  async updateNote(note, refetch = true) {
+    const url = `${this.#baseURL}/${note.id}`;
+    const res = await fetch(url, {
+      method: "PUT",
+      body: JSON.stringify(note),
+    });
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch ${url}: ${res.status} ${res.statusText}`,
+      );
+    }
+
+    if (refetch === true) return this.getNotes();
+  }
+
+  /**
+   * Delete a note by ID.
+   * @param noteID The ID of the note to delete.
+   * @param refetch Whether to refetch the notes after creating the new note. Defaults to true. Useful for batch updates.
+   */
+  async deleteNote(noteID, refetch = true) {
+    const url = `${this.#baseURL}/${noteID}`;
+    const res = await fetch(url, { method: "DELETE" });
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch ${url}: ${res.status} ${res.statusText}`,
+      );
+    }
+
+    if (refetch === true) return this.getNotes();
   }
 
   /**
@@ -84,4 +158,4 @@ function element(tag, attributes, children) {
 
 const api = new NotesDataAPI();
 
-document.addEventListener("DOMContentLoaded", () => api.getNotes());
+document.addEventListener("DOMContentLoaded", () => api.getNotesDummy());
