@@ -52,16 +52,16 @@ body {
   transition: background 500ms ease-in-out, color 1000ms ease-in-out;
 }
 
-.navigation__bar {
+.navigation {
   font-size: large;
   width: 280px;
 }
 
-.list__of__pages {
+.navigation__list {
   padding: 0;
 }
 
-.list__of__pages__element {
+.navigation__list__item {
   border-radius: 0 20px 20px 0;
   padding-left: 12px;
   padding: 0.5em;
@@ -69,22 +69,22 @@ body {
   align-items: center;
 }
 
-.list__of__pages__element:hover {
+.navigation__list__item:hover {
+  cursor: pointer;
   background-color: var(--accentHover);
 }
 
-.active:hover {
+.navigation__list__item--active:hover {
   background-color: var(--accentActive);
 }
 
-.list__of__pages__element__link {
+.navigation__list__item__link {
   margin-left: 30px;
 }
 
-.list__of__pages__element > i {
+.navigation__list__item > i {
   padding: 0 12px;
 }
-
-.active {
+.navigation__list__item--active {
   background-color: var(--accentActive);
 }
