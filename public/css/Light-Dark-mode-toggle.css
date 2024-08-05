@@ -1,0 +1,113 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+/* CSS variables*/
+:root {
+    --text-color: #000;
+    --background-color: #FFF;
+    --background-card: #FEEFC3;
+    --filterimage: 0;
+    --border-color: #E0E0E0;
+    --slider-background: #F6B300;
+    --slider-checked-background: #1A73E8;
+    --dark-mode-background: #202124;
+    --dark-mode-text-color: white;
+    --dark-mode-background-card: #41331C;
+    --dark-mode-border-color: #5F6368;
+    --dark-mode-filterimage: 1;
+}
+
+/* Dark theme */
+body.dark-mode {
+    background-color: var(--dark-mode-background);
+    color: var(--dark-mode-text-color);
+    --background-card: var(--dark-mode-background-card);
+    --border-color: var(--dark-mode-border-color);
+    --filterimage: var(--dark-mode-filterimage);
+}
+
+/* General styles */
+aside {
+    width: 25%;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+img {
+    width: 35px;
+    filter: invert(var(--filterimage));
+}
+
+header {
+    height: 80px;
+}
+
+section {
+    width: 70%;
+    margin-left: 30%;
+}
+
+.card {
+    position: absolute;
+    width: 300px;
+    height: auto;
+    margin: 30px;
+    padding: 15px;
+    border: solid 1px var(--border-color);
+    border-radius: 10px;
+}
+
+.home-navigation {
+    background-color: var(--background-card);
+}
+
+/* Slider styles */
+.switch {
+    position: absolute;
+    right: 0;
+    width: 63px;
+    height: 34px;
+    margin: 30px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 34px;
+    background-color: var(--slider-background);
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 40px;
+    width: 40px;
+    margin: -3px 0;
+    border-radius: 50%;
+    /* dark gray with transparency (3d) */
+    box-shadow: 0 0px 15px #2020203d;
+    /* just one picture, centered  */
+    background: white url("../images/sunny.png") no-repeat center;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: var(--slider-checked-background);
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+    background: white url("../images/night.png") no-repeat center;
+}
