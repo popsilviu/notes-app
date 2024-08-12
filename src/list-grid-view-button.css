@@ -1,0 +1,18 @@
+.notes-container {
+  --grid-cols: 1;
+
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+}
+
+.notes-container.notes-grid {
+  --grid-cols: 4;
+}
+
+.list-grid-button[data-view="list"] [data-icon="grid"] {
+  display: none;
+}
+
+.list-grid-button[data-view="grid"] [data-icon="list"] {
+  display: none;
+}
