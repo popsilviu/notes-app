@@ -113,7 +113,7 @@ class NotesDataAPI {
 
     notesConentArea.innerHTML = "";
 
-    for (const note of this.notes.values())
+    for (const note of this.#notes.values())
       if (note.type == "details")
         notesConentArea.appendChild(
           element("div", {}, [
