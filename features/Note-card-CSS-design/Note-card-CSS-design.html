@@ -5,13 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Note App</title>
-
     <link rel="stylesheet" href="/public/css/Note-card-CSS-design.css">
+    <link rel="stylesheet" href="/src/notes-nativation-item.css">
 </head>
 
 <body>
-    <button id="toggle-view"></button>
-    <section id="display-cards"></section>
+    <nav>
+        <button id="toggle-view" data-view="grid" class="button--list-grid" title="Toggle list/grid view">
+            <img src="/public/images/svg/list.svg" alt="Icon list" data-icon="list" />
+            <img src="/public/images/svg/view-grid.svg" alt="Icon grid" data-icon="grid" />
+        </button>
+    </nav>
+
+    <aside id="navbar" class="navigation">
+        <ul class="navigation__list">
+          <li class="navigation__list__item navigation__list__item--active">
+            <img src="/public/images/svg/light-bulb.svg" alt="notes-content" />
+            <a href="#notes" class="navigation__list__item__link">Notes</a>
+          </li>
+          <li class="navigation__list__item">
+            <img src="/public/images/svg/bin.svg" alt="trash-content" />
+            <a href="#trash" class="navigation__list__item__link">Trash</a>
+          </li>
+        </ul>
+    </aside>
+
+    <section id="display-cards" data-notes-container></section>
+
     <script src="./Note-card-CSS-design.js"></script>
 </body>
 

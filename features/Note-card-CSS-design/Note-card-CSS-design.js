@@ -1,84 +1,97 @@
 document.addEventListener('DOMContentLoaded', () => {
     const displayCardsSection = document.getElementById('display-cards');
     const toggleButton = document.getElementById('toggle-view');
-    const cardWidth = 400; // Fixed width of each card
     const maxCharLength = 250; // Maximum length of content for uniform height
+    const gridMinWidth = 992;  // Minimum width for grid view
 
     // Dummy data for initial notes
     let notes = [
-        {
-            title: "Title 1",
-            content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam faucibus arcu eros, sit amet pulvinar leo bibendum nec. Duis fermentum ut ligula eu varius. Integer nec ornare arcu. Sed blandit lobortis consectetur. Etiam non lacinia sem, nec porta leo. Nam sit amet nulla congue, efficitur risus in, pellentesque nibh. Maecenas scelerisque lacus nunc, a rutrum est laoreet et. Mauris id commodo nunc. Vestibulum sit amet tristique lectus, eget malesuada risus. Proin facilisis odio et nisl congue, eget facilisis augue commodo. Maecenas lobortis enim vel quam pulvinar, quis sagittis mauris consectetur. Duis imperdiet magna lacus, sit amet convallis tortor interdum in. Suspendisse aliquam at lorem eu facilisis. Phasellus consequat nulla eget erat suscipit facilisis. Donec elementum, nisl placerat pulvinar interdum, sem justo sagittis est, ac fermentum orci mauris sed elit."
-        },
+        { title: "Title 1", content: "Lorem ipsum dolor sit amet.".repeat(70) },
         { title: "Title 2", content: "Quisque convallis ornare urna eu tincidunt. ".repeat(10) },
-        { title: "Title 3", content: "Curabitur sit amet maximus massa. ".repeat(10) },
-        { title: "Title 4", content: "Ut ultrices malesuada magna. ".repeat(3) },
+        { title: "Title 3", content: "" },
+        { title: "", content: "Ut ultrices malesuada magna. ".repeat(3) },
     ];
 
     // Function to display notes in the display section
-    const displayNotes = () => {
+    function displayNotes() {
         displayCardsSection.innerHTML = ''; // Clear existing content
-        notes.forEach((note) => {
+        notes.forEach(note => {
             const noteElement = document.createElement('article');
             noteElement.classList.add('note');
             // Set the note content and title
-            noteElement.innerHTML = `<strong>${note.title}</strong><p>${note.content.substring(0, maxCharLength)}${note.content.length > maxCharLength ? '...' : ''}</p>`;
+            noteElement.innerHTML = `<strong>${note.title}</strong>
+                                     <p>${note.content.substring(0, maxCharLength)}${note.content.length > maxCharLength ? '...' : ''}</p>`;
             displayCardsSection.appendChild(noteElement);
         });
-    };
+    }
 
-    // Function to adjust the number of columns and the gap based on container width
-    const setDynamicGapAndColumns = () => {
-        const containerWidth = displayCardsSection.offsetWidth;
-        const minGap = 10; // Minimum gap between cards
-
-        // Calculate number of columns
-        let columns = Math.floor(containerWidth / cardWidth);
-        if (columns > 3) columns = 3;
-
-        // Set grid layout based on number of columns
-        if (columns === 3) {
-            const columnGap = (containerWidth - (3 * cardWidth)) / 2;
-            displayCardsSection.style.columnGap = `${Math.max(columnGap, minGap)}px`;
-            displayCardsSection.style.gridTemplateColumns = `repeat(3, ${cardWidth}px)`;
-            displayCardsSection.style.justifyContent = 'space-between';
-            toggleButton.textContent = 'Grid View';
+    // Function to set the layout (grid or list)
+    function setLayout(layout) {
+        const notesContainer = document.querySelector("[data-notes-container]");
+        if (layout === "grid") {
+            notesContainer.classList.add("notes--grid");
+            notesContainer.classList.remove("notes--list");
+            toggleButton.dataset.view = "grid";
+        } else if (layout === "list") {
+            notesContainer.classList.remove("notes--grid");
+            notesContainer.classList.add("notes--list");
+            toggleButton.dataset.view = "list";
         } else {
-            displayCardsSection.style.columnGap = `${minGap}px`;
-            displayCardsSection.style.gridTemplateColumns = `repeat(1, ${cardWidth}px)`;
-            displayCardsSection.style.justifyContent = 'center';
-            toggleButton.textContent = 'List View';
+            throw new Error(`Unknown layout: ${layout}`);
+        }
+
+        // Update button icons
+        const iconList = toggleButton.querySelector('[data-icon="list"]');
+        const iconGrid = toggleButton.querySelector('[data-icon="grid"]');
+        if (layout === "grid") {
+            iconList.style.display = 'none';
+            iconGrid.style.display = 'block';
+        } else {
+            iconList.style.display = 'block';
+            iconGrid.style.display = 'none';
+        }
+
+        // Save the current layout in localStorage if the screen is wide enough
+        if (window.innerWidth >= gridMinWidth) {
+            localStorage.setItem("layout", layout);
+        }
+    }
+
+    // Function to handle the layout toggle button click
+    toggleButton.onclick = () => {
+        if (window.innerWidth >= gridMinWidth) {
+            const currentLayout = toggleButton.dataset.view;
+            if (currentLayout === "grid") {
+                setLayout("list");
+            } else {
+                setLayout("grid");
+            }
         }
     };
 
-    // Function to render the notes and adjust layout
-    const render = () => {
-        displayNotes(); 
-        setDynamicGapAndColumns(); 
-    };
-
-    // Function to toggle between grid and list views
-    const toggleView = () => {
-        if (displayCardsSection.classList.contains('list-view')) {
-            displayCardsSection.classList.remove('list-view');
-            displayCardsSection.classList.add('grid-view');
+    // Function to check the screen size and adjust layout options
+    function checkScreenSize() {
+        if (window.innerWidth < gridMinWidth) {
+            // If screen is small, force list view and disable toggle to grid
+            setLayout("list");
+            toggleButton.disabled = true;
         } else {
-            displayCardsSection.classList.remove('grid-view');
-            displayCardsSection.classList.add('list-view');
+            // Re-enable the toggle button if the screen is wide enough
+            toggleButton.disabled = false;
+            const savedLayout = localStorage.getItem("layout") || "grid";
+            setLayout(savedLayout);
         }
-        setDynamicGapAndColumns(); // Reapply layout after toggling view
-    };
+    }
 
-    // Adjust layout on window resize
-    window.addEventListener('resize', setDynamicGapAndColumns);
+    // Event listener for window resize to dynamically adjust layout
+    window.addEventListener('resize', checkScreenSize);
 
-    // Set up button click event
-    toggleButton.addEventListener('click', () => {
-        toggleView();
-        setDynamicGapAndColumns(); // Adjust layout after toggling view
-    });
+    // Initial rendering of notes and layout setup
+    function render() {
+        displayNotes();
+        checkScreenSize();  // Check screen size initially
+    }
 
     // Initial setup
-    displayCardsSection.classList.add('grid-view'); // Set initial view to grid
     render();
 });

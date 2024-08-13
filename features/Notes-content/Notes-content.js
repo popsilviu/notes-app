@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Sections for adding and displaying notes
-    const addCardSection = document.getElementById('add-card');
     const displayCardsSection = document.getElementById('display-cards');
+    const addCardButton = document.getElementById('add-card-button');
 
     // Dummy data for initial notes
     let notes = [
-        { title: "Title 1", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ".repeat(100) },
+        { title: "Title 1", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ".repeat(70) },
         { title: "Title 2", content: "Quisque convallis ornare urna eu tincidunt. ".repeat(10) },
         { title: "Title 3", content: "Curabitur sit amet maximus massa. ".repeat(10) },
         { title: "Title 4", content: "Ut ultrices malesuada magna. ".repeat(3) },
@@ -16,19 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Object to hold the current note being edited
     let note = { title: '', content: '' };
 
-    // Function to initialize the note editor button
-    const addNote = () => {
-        const addButton = document.createElement('button');
-        addButton.id = 'add-card-button';
-        addButton.textContent = "Take a note...";
-        addButton.className = "add-card__details";
-        addButton.addEventListener('click', openEditor); // Open editor on button click
-        addCardSection.innerHTML = '';
-        addCardSection.appendChild(addButton);
-    };
-
     // Function to open the note editor modal
-    const openEditor = () => {
+    function openEditor() {
         const createNote = document.createElement('dialog');
         createNote.id = 'create-note';
         createNote.className = 'add-card__details';
@@ -54,24 +43,24 @@ document.addEventListener('DOMContentLoaded', () => {
             </menu>
         `;
         document.body.appendChild(createNote);
-        createNote.showModal(); // Display the modal
+        createNote.showModal();
 
         // Retrieve elements
         const titleInput = document.getElementById('title');
         const contentTextarea = document.getElementById('content');
         const saveButton = document.getElementById('saveButton');
 
-        // Function to update Save button visibility
-        const updateSaveButtonVisibility = () => {
+        function updateSaveButtonVisibility() {
             const title = titleInput.value.trim();
             const content = contentTextarea.value.trim();
-            saveButton.style.display = (title || content) ? 'inline-block' : 'none'; // Show button if content is present
+            saveButton.style.display = (title || content) ? 'inline-block' : 'none';
         };
 
         // Event listeners
         titleInput.addEventListener('input', updateSaveButtonVisibility);
         contentTextarea.addEventListener('input', updateSaveButtonVisibility);
-        contentTextarea.addEventListener('keydown', (event) => handleEnter(event));
+        contentTextarea.addEventListener('input', adjustContentHeight);
+        contentTextarea.addEventListener('keydown', (event) => handleEnter(event, contentTextarea));
 
         document.getElementById('cancelButton').addEventListener('click', () => {
             createNote.close(); // Close the modal
@@ -100,8 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSaveButtonVisibility();
     };
 
-    // Function to reset the editor state
-    const resetEditor = () => {
+    function resetEditor() {
         note = { title: '', content: '' };
         const dialogSpace = document.getElementById('add-card-button');
         if (dialogSpace) {
@@ -109,21 +97,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Function to display the list of notes
-    const displayNotes = () => {
+    /* Function to display the most recent notes first*/
+    function displayNotes() {
         displayCardsSection.innerHTML = '';
-        notes.forEach((note, index) => {
+        // Reverse the notes array to show the newest notes first
+        [...notes].reverse().forEach((note, index) => {
             const noteElement = document.createElement('article');
             noteElement.className = 'note';
-            noteElement.innerHTML = `<strong>${note.title}</strong>
-            <p>${note.content.substring(0, 250)}${note.content.length > 250 ? '...' : ''}</p>`;
-            noteElement.addEventListener('click', () => viewNoteDetails(index));
+            noteElement.innerHTML = `
+                <strong>${note.title}</strong>
+                <p>${note.content.substring(0, 250)}${note.content.length > 250 ? '...' : ''}</p>
+            `;
+            // Store the original index to use when viewing details
+            noteElement.dataset.index = notes.length - 1 - index;
+            noteElement.addEventListener('click', () => viewNoteDetails(noteElement.dataset.index));
             displayCardsSection.appendChild(noteElement);
         });
     };
 
-    // Function to show note details in a modal
-    const viewNoteDetails = (index) => {
+    function viewNoteDetails(index) {
         const note = notes[index];
         const noteDetails = document.createElement('dialog');
         noteDetails.id = 'note-details';
@@ -147,51 +139,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Function to adjust modal margins based on viewport height
-    const adjustMargins = (dialog) => {
+    function adjustMargins(dialog) {
         const viewportHeight = window.innerHeight;
         const maxHeight = viewportHeight * 0.75; // 75% of viewport height
 
         if (dialog.scrollHeight > maxHeight) {
             dialog.style.height = `${maxHeight}px`;
-            dialog.style.overflowY = 'auto'; // Enable scroll if content exceeds max height
+            dialog.style.overflowY = 'auto';
         }
     };
 
-    // Function to handle 'Enter' key press in textarea
-    const handleEnter = (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault(); // Prevent default newline
-            const textarea = event.target;
-
-            textarea.value += '\n'; // Add newline character
-            adjustContentHeight(); // Adjust textarea height
+    function handleEnter(event, textarea) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            textarea.value += '\n';
+            adjustContentHeight();
         }
     };
 
     // Function to adjust the height of the textarea based on its content
-    const adjustContentHeight = () => {
+    function adjustContentHeight() {
         const textarea = document.getElementById('content');
-        const dialogSpace = document.getElementById('add-card-button'); // Check if this is the correct element
         const maxHeight = 500; // Set maximum height (in pixels)
 
         if (textarea) {
-            textarea.style.height = 'auto'; // Reset height to allow proper scrollHeight calculation
-
+            textarea.style.height = 'auto'; // Reset height
             const newHeight = Math.min(textarea.scrollHeight, maxHeight);
             textarea.style.height = `${newHeight}px`;
-
-            if (dialogSpace) {
-                dialogSpace.style.marginBottom = `${newHeight + 50}px`; // Adjust margin
-            }
-
-            textarea.style.overflowY = textarea.scrollHeight > maxHeight ? 'auto' : 'hidden'; // Set overflow
+            textarea.style.overflowY = textarea.scrollHeight > maxHeight ? 'auto' : 'hidden';
         }
     };
 
+    // Attach the click event to the button by its ID
+    addCardButton.addEventListener('click', openEditor);
+
     // Function to render the note editor and display existing notes
     const render = () => {
-        addNote(); // Initialize note editor
         displayNotes(); // Display notes
     };
 
