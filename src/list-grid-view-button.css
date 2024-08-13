@@ -1,18 +1,18 @@
-.notes-container {
+.notes__container {
   --grid-cols: 1;
 
   display: grid;
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
 }
 
-.notes-container.notes-grid {
+.notes__container--grid__layout {
   --grid-cols: 4;
 }
 
-.list-grid-button[data-view="list"] [data-icon="grid"] {
+.layout__toggle__button[data-view="list"] [data-icon="grid"] {
   display: none;
 }
 
-.list-grid-button[data-view="grid"] [data-icon="list"] {
+.layout__toggle__button[data-view="grid"] [data-icon="list"] {
   display: none;
 }
