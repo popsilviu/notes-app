@@ -50,34 +50,34 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         document.body.appendChild(createNote);
         createNote.showModal();
-    
+
         // Retrieve elements
         const titleInput = document.getElementById('title');
         const contentTextarea = document.getElementById('content');
         const saveButton = document.getElementById('saveButton');
-    
+
         function updateSaveButtonVisibility() {
             const title = titleInput.value.trim();
             const content = contentTextarea.value.trim();
             saveButton.style.display = (title || content) ? 'inline-block' : 'none';
         };
-    
+
         // Event listeners
         titleInput.addEventListener('input', updateSaveButtonVisibility);
         contentTextarea.addEventListener('input', updateSaveButtonVisibility);
         contentTextarea.addEventListener('input', adjustContentHeight);
         contentTextarea.addEventListener('keydown', (event) => handleEnter(event, contentTextarea));
-    
+
         document.getElementById('cancelButton').addEventListener('click', () => {
             createNote.close(); // Close the modal
             createNote.remove(); // Remove from DOM
             resetEditor(); // Reset editor state
         });
-    
+
         document.getElementById('saveButton').addEventListener('click', () => {
             const title = titleInput.value.trim();
             const content = contentTextarea.value.trim();
-    
+
             if (title || content) {
                 if (editMode && noteIndex !== null) {
                     notes[noteIndex] = { title, content }; // Update existing note
@@ -139,13 +139,29 @@ document.addEventListener('DOMContentLoaded', () => {
             const noteElement = document.createElement('article');
             noteElement.className = 'note';
             noteElement.innerHTML = `
-                 <img src="/public/images/svg/check-circle-solid.svg" class="note__icon" alt="select note" />
+                <img src="/public/images/svg/check-circle-solid.svg" class="note__icon" alt="select note" />
                 <strong>${note.title}</strong>
                 <p>${note.content.substring(0, maxCharLength)}${note.content.length > maxCharLength ? '...' : ''}</p>
-            `;
+                <footer class="note__footer">
+                    <button id="editDetails-${index}" class="note-content__footer-button note__footer-button">
+                        <img src="/public/images/svg/page-edit.svg" alt="edit note" />
+                    </button>
+                    <button id="deleteDetails-${index}" class="note-content__footer-button note__footer-button">
+                        <img src="/public/images/svg/bin.svg" alt="delete note" />
+                    </button>
+                </footer>
+                `;
             // Store the original index to use when viewing details
             noteElement.dataset.index = notes.length - 1 - index;
             noteElement.addEventListener('click', () => viewNoteDetails(noteElement.dataset.index));
+
+            const editButton = noteElement.querySelector(`#editDetails-${index}`);
+            const deleteButton = noteElement.querySelector(`#deleteDetails-${index}`);
+
+
+            // Attach the note actions
+            noteContextUpdateDeleteButton(editButton, deleteButton, noteElement.dataset.index);
+
             displayCardsSection.appendChild(noteElement);
         });
     };
@@ -179,20 +195,48 @@ document.addEventListener('DOMContentLoaded', () => {
             noteDetails.remove(); // Remove from DOM
         });
 
-        document.getElementById('editDetails').addEventListener('click', () => {
-            openEditor(true, index); // Open editor for editing
-            noteDetails.close();
-            noteDetails.remove();
-        });
+        // document.getElementById('editDetails').addEventListener('click', () => {
+        //     openEditor(true, index); // Open editor for editing
+        //     noteDetails.close();
+        //     noteDetails.remove();
+        // });
 
-        document.getElementById('deleteDetails').addEventListener('click', () => {
-            trash.push(notes.splice(index, 1)[0]); // Move note to trash
-            noteDetails.close();
-            noteDetails.remove();
-            displayNotes(); // Refresh notes display
-        });
+        // document.getElementById('deleteDetails').addEventListener('click', () => {
+        //     trash.push(notes.splice(index, 1)[0]); // Move note to trash
+        //     noteDetails.close();
+        //     noteDetails.remove();
+        //     displayNotes(); // Refresh notes display
+        // });
+
+        const editButton = document.getElementById('editDetails');
+        const deleteButton = document.getElementById('deleteDetails');
+
+        // Attach the note actions
+        noteContextUpdateDeleteButton(editButton, deleteButton, index, noteDetails);
     };
 
+    function noteContextUpdateDeleteButton(editButton, deleteButton, index, noteDetails = null) {
+        editButton.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent triggering any parent click events
+            openEditor(true, index); // Open editor for editing
+
+            if (noteDetails) {
+                noteDetails.close(); // Close the modal if it exists
+                noteDetails.remove();
+            }
+        });
+
+        deleteButton.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent triggering any parent click events
+            trash.push(notes.splice(index, 1)[0]); // Move note to trash
+
+            if (noteDetails) {
+                noteDetails.close(); // Close the modal if it exists
+                noteDetails.remove();
+            }
+            displayNotes(); // Refresh notes display
+        });
+    }
 
     //****************************Grid/List******************************** */
     // Function to set the layout (grid or list)
