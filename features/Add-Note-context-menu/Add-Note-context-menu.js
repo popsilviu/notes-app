@@ -195,18 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
             noteDetails.remove(); // Remove from DOM
         });
 
-        // document.getElementById('editDetails').addEventListener('click', () => {
-        //     openEditor(true, index); // Open editor for editing
-        //     noteDetails.close();
-        //     noteDetails.remove();
-        // });
-
-        // document.getElementById('deleteDetails').addEventListener('click', () => {
-        //     trash.push(notes.splice(index, 1)[0]); // Move note to trash
-        //     noteDetails.close();
-        //     noteDetails.remove();
-        //     displayNotes(); // Refresh notes display
-        // });
 
         const editButton = document.getElementById('editDetails');
         const deleteButton = document.getElementById('deleteDetails');
