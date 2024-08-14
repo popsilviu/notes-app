@@ -1,0 +1,252 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+aside {
+    float: left;
+    height: 100%;
+}
+
+nav {
+    height: 3rem;
+    display: grid;
+    justify-content: end;
+    align-items: center;
+    padding: 0 3rem;
+}
+
+p {
+    text-align: justify;
+}
+
+textarea {
+    resize: none;
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+}
+
+#add-card {
+    display: grid;
+    justify-content: center;
+}
+
+#add-card-button {
+    height: 2.3rem;
+}
+
+#create-note {
+    margin: 3rem auto;
+
+    width: 32rem;
+}
+
+#note-details {
+    background-color: #fff;
+
+    border: solid 1px #E0E0E0;
+    border-radius: 0.625rem;
+
+    width: 40rem;
+
+    margin: auto;
+    padding: 1.25rem;
+
+    display: flex;
+    flex-direction: column;
+    max-height: 75vh;
+
+}
+
+.add-card__details {
+
+    background-color: #fff;
+
+    border: solid 1px #E0E0E0;
+    border-radius: 0.3rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    text-align: left;
+    padding-left: 0.8rem;
+}
+
+.button-details {
+    margin: 0.3rem 0;
+
+    height: 2rem;
+    width: 4rem;
+
+    background-color: #fff;
+
+    border: none;
+}
+
+.button-details:hover,
+.note-content__footer-button:hover {
+    background-color: #f5f5f5;
+
+    border-radius: 0.3rem;
+}
+
+.create-note__details {
+    border: none;
+
+    width: 100%;
+
+    margin: 0.625rem 0;
+}
+
+.list-grid__button {
+    padding: 0.5rem;
+    background-color: white;
+    border: none;
+}
+
+.list-grid__button:hover {
+    background-color: #E9EAEA;
+
+    border: 1px solid #E9EAEA;
+    border-radius: 100%;
+}
+
+.list-grid__button[data-view="list"] [data-icon="grid"] {
+    display: none;
+}
+
+.list-grid__button[data-view="grid"] [data-icon="list"] {
+    display: none;
+}
+
+.note {
+    height: auto;
+
+    margin: 0.8rem 2rem;
+    padding: 1rem;
+
+    border: solid 1px #E0E0E0;
+    border-radius: 0.625rem;
+}
+
+.note__header,
+.note__footer,
+menu {
+    display: grid;
+    grid-template-columns: 1fr auto;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+.note__header button {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.note__content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 0 2rem;
+}
+
+.note-content__footer-button {
+    width: 2rem;
+    height: 1.8rem;
+
+    border: none;
+
+    background-color: #fff;
+
+    margin-top: 1rem;
+}
+.note__icon {
+    position: absolute;
+    margin-left: -1.8rem;
+    margin-top: -1.8rem;
+    display: none;
+}
+
+.note__icon img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* Show icon on hover */
+.note:hover .note__icon {
+    display: block;
+}
+
+.notes--grid,
+.notes--list {
+    display: grid;
+}
+
+.notes--list .note {
+    max-width: 50%;
+
+    margin: 1.5rem 25%;
+}
+
+@media (max-width: 992px) {
+
+    /* "!important" only because I used Marian's CSS and did not go in to make changes*/
+    aside {
+        width: 2.7rem !important;
+    }
+
+    aside a {
+        display: none;
+    }
+
+    #create-note {
+        left: 2.6rem;
+        width: 16rem;
+    }
+
+    #note-details {
+        left: 2.6rem;
+    }
+
+    .add-card__details {
+        width: 16rem;
+    }
+
+    .navigation__list__item {
+        border-radius: 50% !important;
+    }
+
+    .notes--grid {
+        grid-template-columns: 1fr;
+    }
+
+    .note {
+        margin: 1.5rem 25%;
+    }
+
+}
+
+@media (min-width: 992px) {
+    aside {
+        width: 18rem;
+    }
+
+    #create-note {
+        left: 17.5rem;
+    }
+
+    #note-details {
+        left: 17.5rem;
+    }
+
+    .add-card__details {
+        width: 32rem;
+    }
+
+    .notes--grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
