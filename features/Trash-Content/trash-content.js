@@ -74,7 +74,6 @@ function deleteThisNote(noteIndex) {
 
 function restoreThisNote(noteIndex, elementToHide) {
     try {
-        console.log(noteIndex);
         apiCallRestore();
         delete deletedNotes[noteIndex];
         displayDeletedNotes();
