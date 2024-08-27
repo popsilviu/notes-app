@@ -19,4 +19,23 @@ async function fetch2(url, { timeoutMs = -1, ...options } = {}) {
   return res;
 }
 
-fetch2("https://httpbin.org/delay/10", { timeoutMs: 3000 });
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function exponentialRetry(fn, { level = 0, maxLevel = 3 } = {}) {
+  try {
+    return await fn();
+  } catch (e) {
+    if (level > maxLevel) throw e;
+
+    // equivalent to (2 ** level) * 1000 + 1000
+    await sleep((1000 << level) + 1000);
+
+    return exponentialRetry(fn, { level: level + 1, maxLevel });
+  }
+}
+
+function fetchRetry(url, { retries = 3, ...options } = {}) {
+  return exponentialRetry(() => fetch2(url, options), { maxLevel: retries });
+}
