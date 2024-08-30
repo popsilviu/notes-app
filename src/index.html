@@ -1,0 +1,84 @@
+<!-- <header>
+    Hamburger menu button
+    Home navigation button
+    Dummy Search Bar
+    List/Grid view button
+    Light/Dark mode toggle
+</header>
+
+<article>
+    <sidebar>
+        Notes Navigation Item
+        Trash Navigation Item
+    </sidebar>
+    <section>
+        Notes content
+        <card>
+            Note card CSS design
+            Add Note context menu
+        </card>
+    </section>
+
+    <section>
+        Trash content
+    </section>
+</article> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>My Website</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/iconoir.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/Light-Dark-mode-toggle.css">
+</head>
+
+<body>
+    <header class="header">
+        <button id="header__menu" class="header__menu"><i class="iconoir-menu"></i></button>
+        <button class="header__home"><i class="iconoir-home"></i></button>
+
+        <form class="header__search">
+            <input type="text" class="form__input" placeholder="Search">
+            <i class="iconoir-search" aria-hidden="true"></i>
+        </form>
+
+        <button id="layoutToggleButton" class="layout__toggle__button" title="toggle list/grid view"
+            onclick="toggleLayout()">
+            <i data-icon="list" class="iconoir-list"></i>
+            <i data-icon="grid" class="iconoir-view-grid"></i>
+        </button>
+
+        <label id="switch" class="switch">
+            <input type="checkbox" id="themeToggle">
+            <span class="slider round"></span>
+        </label>
+    </header>
+    <main>
+        <nav id="sidebar" class="sidebar">
+            <ul>
+                <li id="icon"><a href="#"><i class="iconoir-multiple-pages"></i>
+                        <div class="menu_desc">Note</div>
+                    </a></li>
+                <li id="icon"><a href="#"><i class="iconoir-bin"></i>
+                        <div class="menu_desc">Trash</div>
+                    </a></li>
+            </ul>
+            <div id="overlay" class="overlay"></div>
+        </nav>
+    </main>
+    <footer>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/fetch-data.js" defer></script>
+    <script src="js/hamburger-menu-button.js"></script>
+    <script src="js/Light-Dark-mode-toggle.js"></script>
+</body>
+
+</html>  
