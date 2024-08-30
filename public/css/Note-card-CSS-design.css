@@ -1,0 +1,92 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+aside{
+    float: left;
+    height: 100%;  
+}
+
+nav {
+    height: 3rem;
+    display: grid;
+    justify-content: end;
+    align-items: center;
+    padding: 0 3rem;
+}
+
+.button--list-grid {
+    padding: 0.5rem;
+    background-color: white;
+    border: none;
+}
+
+.button--list-grid:hover {
+    background-color: #E9EAEA;
+
+    border: 1px solid #E9EAEA;
+    border-radius: 100%;
+}
+
+.button--list-grid[data-view="list"] [data-icon="grid"] {
+    display: none;
+}
+
+.button--list-grid[data-view="grid"] [data-icon="list"] {
+    display: none;
+}
+
+.note {
+    height: auto;
+
+    margin: 0.8rem 2rem;
+    padding: 1rem;
+
+    border: solid 1px #E0E0E0;
+    border-radius: 0.625rem;
+}
+
+.notes--grid,.notes--list{
+    display: grid;
+}
+
+.notes--list .note{
+    max-width: 50%;
+
+    margin: 1.5rem 25%;
+}
+
+@media (max-width: 992px) { 
+    /* "!important" only because I used Marian's CSS and did not go in to make changes*/
+    aside {
+        width: 2.7rem !important;
+    } 
+
+    aside a {
+        display: none; 
+    }
+
+    .navigation__list__item{
+        border-radius: 50% !important;
+    }
+
+    .notes--grid {
+        grid-template-columns: 1fr; 
+    }
+
+    .note{
+        margin: 1.5rem 25%;
+    }
+}
+
+@media (min-width: 992px) { 
+    .notes--grid {
+        grid-template-columns: repeat(3, 1fr); 
+    }
+
+    aside {
+        width: 18rem;
+    }
+}
