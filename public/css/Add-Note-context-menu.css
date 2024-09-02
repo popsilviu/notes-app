@@ -134,6 +134,10 @@ input:focus {
     border-radius: 0.625rem;
 }
 
+.note:hover{
+    border: solid 1px black;
+}
+
 .note__header,
 .note__footer,
 menu {
@@ -142,6 +146,8 @@ menu {
 
     align-items: center;
     justify-content: space-between;
+
+    height: 1.8rem;
 }
 
 .note__header button {
@@ -163,7 +169,7 @@ menu {
 
     background-color: #fff;
 
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 .note__icon {

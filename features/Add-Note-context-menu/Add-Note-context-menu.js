@@ -134,7 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to display notes in the display section
     function displayNotes() {
         displayCardsSection.innerHTML = '';
-        // Reverse the notes array to show the newest notes first
         [...notes].reverse().forEach((note, index) => {
             const noteElement = document.createElement('article');
             noteElement.className = 'note';
@@ -151,20 +150,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     </button>
                 </footer>
                 `;
-            // Store the original index to use when viewing details
             noteElement.dataset.index = notes.length - 1 - index;
-            noteElement.addEventListener('click', () => viewNoteDetails(noteElement.dataset.index));
+            noteElement.onclick = () => viewNoteDetails(noteElement.dataset.index);
 
             const editButton = noteElement.querySelector(`#editDetails-${index}`);
             const deleteButton = noteElement.querySelector(`#deleteDetails-${index}`);
 
+            // Replace addEventListener with onclick
+            editButton.onclick = (event) => {
+                event.stopPropagation();
+                handleUpdateButtonClick(noteElement.dataset.index);
+            };
 
-            // Attach the note actions
-            noteContextUpdateDeleteButton(editButton, deleteButton, noteElement.dataset.index);
+            deleteButton.onclick = () => handleDeleteButtonClick(noteElement.dataset.index);
 
             displayCardsSection.appendChild(noteElement);
         });
     };
+
 
     //****************************Note context*************************** */
     function viewNoteDetails(index) {
@@ -188,42 +191,34 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         document.body.appendChild(noteDetails);
-        noteDetails.showModal(); // Display the modal
+        noteDetails.showModal();
 
-        document.getElementById('closeDetails').addEventListener('click', () => {
-            noteDetails.close(); // Close the modal
-            noteDetails.remove(); // Remove from DOM
-        });
+        document.getElementById('closeDetails').onclick = () => {
+            noteDetails.close();
+            noteDetails.remove();
+        };
 
-
-        const editButton = document.getElementById('editDetails');
-        const deleteButton = document.getElementById('deleteDetails');
-
-        // Attach the note actions
-        noteContextUpdateDeleteButton(editButton, deleteButton, index, noteDetails);
+        document.getElementById('editDetails').onclick = () => handleUpdateButtonClick(index, noteDetails);
+        document.getElementById('deleteDetails').onclick = () => handleDeleteButtonClick(index, noteDetails);
     };
 
-    function noteContextUpdateDeleteButton(editButton, deleteButton, index, noteDetails = null) {
-        editButton.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent triggering any parent click events
-            openEditor(true, index); // Open editor for editing
+    function handleUpdateButtonClick(index, noteDetails = null) {
+        openEditor(true, index); // Open editor for editing
 
-            if (noteDetails) {
-                noteDetails.close(); // Close the modal if it exists
-                noteDetails.remove();
-            }
-        });
+        if (noteDetails) {
+            noteDetails.close(); // Close the modal if it exists
+            noteDetails.remove(); // Remove the modal from the DOM
+        }
+    }
 
-        deleteButton.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent triggering any parent click events
-            trash.push(notes.splice(index, 1)[0]); // Move note to trash
+    function handleDeleteButtonClick(index, noteDetails = null) {
+        trash.push(notes.splice(index, 1)[0]); // Move note to trash
 
-            if (noteDetails) {
-                noteDetails.close(); // Close the modal if it exists
-                noteDetails.remove();
-            }
-            displayNotes(); // Refresh notes display
-        });
+        if (noteDetails) {
+            noteDetails.close(); // Close the modal if it exists
+            noteDetails.remove(); // Remove the modal from the DOM
+        }
+        displayNotes(); // Refresh notes display
     }
 
     //****************************Grid/List******************************** */

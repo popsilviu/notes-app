@@ -16,14 +16,15 @@
   </head>
   <body>
     <button
-      data-view="list"
-      class="list-grid-button"
+      id="layoutToggleButton"
+      class="layout__toggle__button"
       title="toggle list/grid view"
+      onclick="toggleLayout()"
     >
       <i data-icon="list" class="fa-solid fa-table-list"></i>
       <i data-icon="grid" class="fa-solid fa-border-all"></i>
     </button>
-    <div data-notes-container class="notes-container">
+    <div id="notesContainer" class="notes__container">
       <div>note 1</div>
       <div>note 2</div>
       <div>note 3</div>

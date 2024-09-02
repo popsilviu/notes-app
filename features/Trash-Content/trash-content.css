@@ -1,0 +1,112 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+}
+
+.trash-content__menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu__button {
+    background-color: #f8faff;
+    border-radius: 3px;
+    color: #1a73e8;
+    font-weight: bold;
+    margin-right: 2rem;
+    padding: 0.5rem;
+}
+
+.menu__button:hover {
+    background-color: #e1ebfd;
+}
+
+.trash-content__notes__deleted-note {
+    border-radius: 8px;
+    margin-top: 20px;
+    outline: 1px solid #e3e5e6;
+    padding: 10px;
+}
+
+.trash-content__notes__deleted-note:hover {
+    box-shadow: rgba(65, 69, 73, 0.3) 0px 1px 1px 0px, rgba(65, 69, 73, 0.15) 0px 1px 3px 1px;
+}
+
+.note__buttons {
+    opacity: 0%;
+    transition: 1s;
+}
+
+.trash-content__notes__deleted-note:hover .note__buttons {
+    opacity: 100%;
+    transition: 1s;
+}
+
+.note__buttons button{
+    height: 2rem;
+    width: 2rem;
+    
+    border-radius: 50%;
+    margin-left: 1rem;
+    position: relative;
+}
+
+.note__buttons button:hover {
+    background-color:#e3e5e6;
+}
+
+.note__buttons button:hover::before {
+    background-color: #4f5355;
+    border-radius: 3px;
+    color: white;
+    padding: 0.2rem;
+    
+    position: absolute;
+    bottom: -1.75rem;
+    left: 50%;
+    transform:translateX(-50%);
+    
+    white-space: nowrap;
+}
+
+.note__buttons__delete-button:hover::before {
+    content: "Delete forever";
+}
+
+.note__buttons__restore-button:hover::before {
+    content: "Restore";
+}
+
+.confirm-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+}
+
+.confirm-action__background {
+    width: 100%;
+    height:100%;
+    
+    background-color: gray;
+    opacity: 70%;
+}
+
+.confirm-action__choices {
+    background-color: white;
+    border-radius: 8px;
+    opacity: 100%;
+    padding: 3rem;
+    position: fixed;
+}
