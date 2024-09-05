@@ -1,0 +1,49 @@
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 5fr 1fr 1fr;
+    gap: 1rem;
+    place-items: center;
+    
+    outline-style: solid;
+    outline-color: lightgray;
+    outline-width: 1px;
+    
+    position: fixed;
+    top: 0;
+
+    height: 4rem;
+    width: 100%;
+}
+
+.header__button {
+    border: none;
+    background: none;
+    border-radius: 50%;
+
+    height: 3rem;
+    width: 3rem;
+}
+
+.header__button:hover {
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
+
+.header__button i {
+    color: #5f6368;
+    font-size: 1.5rem;
+}
+
+.dark-mode .header__icon {
+    color: lightgray;
+}
+
+.dark-mode .header__button:hover {
+    background-color: #2f3034;
+}
+
+@media (max-width: 576px) {
+    .header {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+  }

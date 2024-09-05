@@ -1,3 +1,4 @@
+/*
 const layoutModifierClassName = "notes__container--grid__layout";
 
 function setLayout(layout) {
@@ -28,3 +29,5 @@ document.addEventListener("DOMContentLoaded", () => {
   const layout = localStorage.getItem("layout") ?? "grid";
   setLayout(layout);
 });
+*/
+
