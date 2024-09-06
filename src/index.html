@@ -43,7 +43,9 @@
 <body>
     <header class="header">
         <button id="header__menu" class="header__button header__menu"><i class="header__icon iconoir-menu"></i></button>
-        <button class="header__button header__home"><i class="header__icon iconoir-home"></i></button>
+        <a href="index.html">
+            <button class="header__button header__home"><i class="header__icon iconoir-home"></i></button>
+        </a>
 
         <form class="form">
             <input type="text" class="form__input" placeholder="Search">
@@ -52,8 +54,6 @@
 
         <button id="layoutToggleButton" class="header__button layout__toggle__button" title="toggle list/grid view"
             onclick="toggleLayout()">
-            <i data-icon="list" class=" header__icon iconoir-list"></i>
-            <i data-icon="grid" class="header__icon iconoir-view-grid"></i>
         </button>
 
         
@@ -75,6 +75,7 @@
             </ul>
             <div id="overlay" class="overlay"></div>
         </nav>
+        <section id="notes-container" class="notes-container"></section>
     </main>
     <footer>
     </footer>
