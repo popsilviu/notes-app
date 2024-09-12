@@ -35,29 +35,33 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/iconoir.css">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/Light-Dark-mode-toggle.css">
+    <link rel="stylesheet" href="css/header-css//Light-Dark-mode-toggle.css">
+    <link rel="stylesheet" href="css/header-css/dummy-search-bar.css">
+    <link rel="stylesheet" href="css/header-css/header.css">
 </head>
 
 <body>
     <header class="header">
-        <button id="header__menu" class="header__menu"><i class="iconoir-menu"></i></button>
-        <button class="header__home"><i class="iconoir-home"></i></button>
+        <button id="header__menu" class="header__button header__menu"><i class="header__icon iconoir-menu"></i></button>
+        <a href="index.html">
+            <button class="header__button header__home"><i class="header__icon iconoir-home"></i></button>
+        </a>
 
-        <form class="header__search">
+        <form class="form">
             <input type="text" class="form__input" placeholder="Search">
-            <i class="iconoir-search" aria-hidden="true"></i>
+            <i class="header__icon iconoir-search form__button form__button--search" aria-hidden="true"></i>
         </form>
 
-        <button id="layoutToggleButton" class="layout__toggle__button" title="toggle list/grid view"
+        <button id="layoutToggleButton" class="header__button layout__toggle__button" title="toggle list/grid view"
             onclick="toggleLayout()">
-            <i data-icon="list" class="iconoir-list"></i>
-            <i data-icon="grid" class="iconoir-view-grid"></i>
         </button>
 
-        <label id="switch" class="switch">
-            <input type="checkbox" id="themeToggle">
-            <span class="slider round"></span>
-        </label>
+        
+            <label id="switch" class="switch">
+                <input type="checkbox" id="themeToggle">
+                <span class="slider round"></span>
+            </label>
+        
     </header>
     <main>
         <nav id="sidebar" class="sidebar">
@@ -71,6 +75,7 @@
             </ul>
             <div id="overlay" class="overlay"></div>
         </nav>
+        <section id="notes-container" class="notes-container"></section>
     </main>
     <footer>
     </footer>
@@ -78,6 +83,7 @@
     <script src="js/script.js"></script>
     <script src="js/fetch-data.js" defer></script>
     <script src="js/hamburger-menu-button.js"></script>
+    <script src="js/list-grid-view-button.js"></script>
     <script src="js/Light-Dark-mode-toggle.js"></script>
 </body>
 

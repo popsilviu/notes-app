@@ -1,0 +1,83 @@
+.form {
+    height: 50px;
+    width: 100%;
+     
+    background-color: #f1f3f4; 
+    border-radius: 8px;
+    display: flex;
+  }
+
+  .form:focus-within {
+    background-color: white;
+    box-shadow: rgba(65, 69, 73, 0.3) 0px 1px 1px 0px, rgba(65, 69, 73, 0.15) 0px 1px 3px 1px;
+  }
+
+  .dark-mode .form {
+    background-color: #525355;
+    color: white;
+  }
+
+  .dark-mode .form:focus-within {
+    background-color: white;
+    box-shadow: rgba(65, 69, 73, 0.3) 0px 1px 1px 0px, rgba(65, 69, 73, 0.15) 0px 1px 3px 1px;
+  }
+
+  .form__input {
+    height: 100%;
+
+    background-color: inherit;
+    border-style: none;
+    box-sizing: border-box;
+    border-radius: inherit;
+    
+    flex-grow: 1;
+    font-size: 16px;
+    
+    outline: none;
+    padding: 10px;
+  }
+
+  .dark-mode .form__input::placeholder {
+    color: white;
+  }
+
+  .dark-mode .form__input:focus-within::placeholder {
+    color: #61656b;
+  }
+
+  .form__button {
+    border-radius: 50%;
+    color: #61656b;
+    font-size: 16px;
+    
+    margin: 7px;
+    padding: 10px;
+  }
+
+  .form__button:hover {
+    background-color: #e3e5e6;
+    cursor: pointer;
+  }
+
+  .form:focus-within .form__button {
+    color: #61656b;
+  }
+  
+  .form:focus-within .form__button:hover {
+    background-color: #e3e5e6;
+  }
+
+  .dark-mode .form__button {
+    color: white;
+  }
+
+  .dark-mode .form__button:hover {
+    background-color: #5e5e61;
+  }
+
+  
+@media (max-width: 576px) {
+    .form {
+        display: none;
+    }
+  }
