@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note App</title>
+
+    <link rel="stylesheet" href="/public/css/Add-Note-context-menu.css">
+    <link rel="stylesheet" href="/src/trash-nativation-item.css">
+</head>
+
+<body>
+    <nav>
+        <button id="toggle-view" data-view="grid" class="list-grid__button" title="Toggle list/grid view">
+            <img src="/public/images/svg/list.svg" alt="Icon list" data-icon="list" />
+            <img src="/public/images/svg/view-grid.svg" alt="Icon grid" data-icon="grid" />
+        </button>
+    </nav>
+
+    <aside id="navbar" class="navigation">
+        <ul class="navigation__list">
+          <li class="navigation__list__item navigation__list__item--active">
+            <img src="/public/images/svg/light-bulb.svg" alt="notes-content" />
+            <a href="#notes" class="navigation__list__item__link">Notes</a>
+          </li>
+          <li class="navigation__list__item">
+            <img src="/public/images/svg/bin.svg" alt="trash-content" />
+            <a href="#trash" class="navigation__list__item__link">Trash</a>
+          </li>
+        </ul>
+    </aside>
+
+    <section id="add-card">
+        <button id="add-card-button" class="add-card__details">Take a note...</button>
+    </section>
+
+    <section id="display-cards" data-notes-container></section>
+
+    <script src="./Add-Note-context-menu.js"></script>
+    <script src="./Note-card-CSS-design.js"></script>
+</body>
+
+</html>
