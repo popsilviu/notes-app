@@ -7,6 +7,39 @@
     --breakpoint-xl: 1200px;
     --breakpoint-xxl: 1440px;
     --breakpoint-wide: 1920px;
+
+    /* Color scheme */
+
+    --text-color: #000;
+    --background-color: #FFF;
+    --background-navigation__item--active: hsl(45, 97%, 88%);
+    --background-navigation__item--hover: hsl(200, 12%, 95%);
+    --filterimage: 0;
+    --border-color: #E0E0E0;
+    --border-color--hover: #000;
+    --button-hover: #F5F5F5;
+    --slider-background: #F6B300;
+    --slider-checked-background: #1A73E8;
+    
+
+    --dark-mode__text-color: #FFF;
+    --dark-mode__background: #202124;
+    --dark-mode__background-navigation__item--active: #F6B300;
+    --dark-mode__background-navigation__item--hover: #5f5f5f;
+    --dark-mode__border-color: #5F6368;
+    --dark-mode__border-color--hover: #FFF;
+    --dark-mode__filterimage: 1;
+}
+
+body.dark-mode {
+    background-color: var(--dark-mode__background);
+    color: var(--dark-mode__text-color);
+    --background-navigation__item--active: var(--dark-mode__background-navigation__item--active);
+    --background-navigation__item--hover: var(--dark-mode__background-navigation__item--hover);
+    --border-color: var(--dark-mode__border-color);
+    --border-color--hover: var(--dark-mode__border-color--hover);
+    --filterimage: var(--dark-mode__filterimage);
+    --text-color:var(--dark-mode__text-color);
 }
 
 * {
@@ -18,6 +51,25 @@
     }
 }
 
+a{
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+p {
+    text-align: justify;
+}
+
+textarea {
+    resize: none;
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+}
+
+/* ******************** HEADING *********************/
 .header {
     display: grid;
     grid-template-columns: 1fr 1fr 5fr 1fr 1fr;
@@ -29,42 +81,334 @@
     background-color: inherit;
 }
 
-.header__menu{
+.header__menu {
     font-size: 24px;
     cursor: pointer;
     border: none;
     background: none;
 }
 
-.sidebar {
-    height: 100%;
+.list-grid__button {
+    padding: 0.5rem;
+    background-color: var(--background-color);
+    border: none;
+}
+
+.list-grid__button:hover {
+    background-color: var(--button-hover);
+
+    border: 1px solid var(--border-color);
+    border-radius: 100%;
+}
+
+.list-grid__button[data-view="list"] [data-icon="grid"] {
+    display: none;
+}
+
+.list-grid__button[data-view="grid"] [data-icon="list"] {
+    display: none;
+}
+
+.switch {
+    position: absolute;
+    right: 0;
+    width: 63px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
     width: 0;
-    position: relative;
+    height: 0;
 }
 
-.sidebar ul {
-    list-style-type: none;
-    padding-left: 0;
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 34px;
+    background-color: var(--slider-background);
+    transition: 0.4s;
 }
 
-.sidebar ul li {
-    padding: 8px 22px 10px 32px;
-    text-decoration: none;
-    font-size: 20px;
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 40px;
+    width: 40px;
+    margin: -3px 0;
+    border-radius: 50%;
+    /* dark gray with transparency (3d) */
+    box-shadow: 0 0px 15px #2020203d;
+    /* just one picture, centered  */
+    background: white url("../public/images/sunny.png") no-repeat center;
+    transition: 0.4s;
 }
 
-.sidebar ul :hover{
-    background-color: #f5f5f5;
+input:checked + .slider {
+    background-color: var(--slider-checked-background);
 }
 
-.sidebar ul li a {
-    color: rgb(0, 0, 0);
-    text-decoration: none;
+input:checked + .slider:before {
+    transform: translateX(24px);
+    background: white url("../images/night.png") no-repeat center;
 }
 
-.menu_desc{
-    margin-left: 20px;
-    margin-left: 40px;
-    margin-top: -24px;
-    overflow-x: hidden;
+
+/* ******************** SIDEBAR ********************/
+@media (max-width: 992px) {
+    main{
+        display: grid;
+        grid-template-columns: 1fr 10fr;
+    }
+
+    #sidebar a p{
+        display: none;
+    }
+
+    .add-card__details {
+        width: 20rem;
+    }
+
+    .navigation__item {
+        margin: auto;
+        width: 2rem;
+        border-radius: 50% !important;
+    }
+
+    .navigation__item i{   
+        padding: 0 !important;
+    }
+
+    .notes--grid {
+        grid-template-columns: 1fr;
+    }
+
 }
+
+@media (min-width: 992px) {
+    main{
+        display: grid;
+        grid-template-columns: 1fr 7fr;
+    }
+
+    .add-card__details {
+        width: 32rem;
+    }
+
+    .notes--grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+.navigation__item {
+    border-radius: 0 20px 20px 0;
+    padding-left: 12px;
+    padding: 0.5em;
+    display: flex;
+    align-items: center;
+}
+
+.navigation__item:hover {
+    cursor: pointer;
+    background-color: var(--background-navigation__item--hover);
+}
+
+.navigation__item--active:hover {
+    background-color: var(--background-navigation__item--active);
+}
+
+.navigation__item--link {
+    margin-left: 30px;
+}
+
+.navigation__item>i {
+    padding: 0 12px;
+}
+
+.navigation__item--active {
+    background-color: var(--background-navigation__item--active);
+}
+
+/* ******************** NOTE-section ********************/
+#add-card {
+    display: grid;
+    justify-content: center;
+}
+
+#add-card--button {
+    height: 2.3rem;
+}
+
+#create-note {
+    margin: 3rem auto;
+
+    width: 32rem;
+}
+
+#note-details, #confirmChoice-details {
+    background-color: var(--background-color);
+
+    border: solid 1px var(--border-color);
+    border-radius: 0.625rem;
+
+    width: 40rem;
+
+    margin: auto;
+    padding: 1.25rem;
+
+    display: flex;
+    flex-direction: column;
+    max-height: 75vh;
+}
+
+.add-card__details {
+
+    background-color: var(--background-color);
+
+    border: solid 1px var(--border-color);
+    border-radius: 0.3rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0rem 0.18rem 0.5rem;
+
+    text-align: left;
+    padding-left: 0.8rem;
+}
+
+.button-details {
+    margin: 0.3rem 0;
+
+    height: 2rem;
+    width: 4rem;
+
+    background-color: var(--background-color);
+
+    border: none;
+}
+
+.button-details:hover,
+.note-content__footer-button:hover {
+    background-color: var(--button-hover);
+
+    border-radius: 0.3rem;
+}
+
+.create-note__details {
+    border: none;
+
+    width: 100%;
+
+    margin: 0.625rem 0;
+}
+
+.note {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+
+    margin: 0.8rem 2rem;
+    padding: 1rem;
+
+    border: solid 1px var(--border-color);
+    border-radius: 0.625rem;
+}
+
+.note:hover{
+    border: solid 1px var(--border-color--hover);
+}
+
+.note__header,
+.note__footer,
+menu {
+    display: grid;
+    grid-template-columns: 1fr auto;
+
+    align-items: center;
+    justify-content: space-between;
+
+    height: 1.8rem;
+}
+
+.note__header button {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.note__content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 0 2rem;
+}
+
+.note-content__footer-button {
+    width: 2rem;
+    height: 1.8rem;
+
+    border: none;
+
+    background-color: var(--background-color);
+
+    margin-top: 0.5rem;
+}
+
+.note__icon {
+    position: absolute;
+    margin-left: -1.5rem;
+    margin-top: -1.5rem;
+    display: none;
+}
+
+.note__footer-button {
+    display: none;
+}
+
+
+
+.note:hover .note__icon,
+.note:hover .note__footer-button {
+    display: block;
+}
+
+.note:hover .note__footer {
+    margin-top: auto;
+}
+
+.notes--grid,
+.notes--list {
+    display: grid;
+}
+
+.notes--list .note {
+    max-width: 50%;
+
+    margin: 1.5rem 25%;
+}
+/* ******************** TRASH-section ********************/
+#confirmChoice-details p{
+    margin: auto;
+}
+
+.trash-content__menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu__button {
+    background-color: var(--background-navigation__item--active);
+    color: var(--text-color);
+    border: solid 1px var(--background-navigation__item--active);
+    border-radius: 0.625rem;
+
+    margin-right: 2rem;
+    padding: 0.5rem;
+}
+
+.menu__button:hover {
+    background-color: var(--background-navigation__item--hover);
+    border: solid 1px var(--border-color--hover);
+    border-radius: 0.625rem;
+}
+
